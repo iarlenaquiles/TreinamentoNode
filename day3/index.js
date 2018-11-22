@@ -12,6 +12,10 @@ app.get('/form', function (req, resp) {
     resp.render('form');
 });
 
+app.get('/register', function (req, resp) {
+    resp.render('register');
+});
+
 app.get('/user/:id', function (req, resp) {
     let id = req.params.id;
 
@@ -48,29 +52,39 @@ app.get('/resource/:id', function (req, resp) {
 
 app.post('/create', function (req, resp) {
     console.log(req);
-    var postData ={
-        "name": req.body.nome,
-        "job": req.body.job
-    };
+    var postData = req.body;
 
     request.post({
         url: 'https://reqres.in/api/users',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: require('querystring').stringify(postData)
     }, function (err, response, body) {
         resp.render('create', { create: body });
     });
+}); 
+
+app.post('/register', function (req, resp) {
+    console.log(req);
+    var postData = req.body;
+
+    request.post({
+        url: 'https://reqres.in/api/register',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: require('querystring').stringify(postData)
+    }, function (err, response, body) {
+        resp.render('create', { create: response });
+    });
 });
 
 app.put('/update', function (req, resp) {
-    var putData ={
+    var putData = {
         "name": "morpheus afsadsa",
         "job": "leader"
     };
 
     request.put({
         url: 'https://reqres.in/api/users/2',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: require('querystring').stringify(putData)
     }, function (err, response, body) {
         resp.render('create', { create: body });
